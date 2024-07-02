@@ -10,7 +10,7 @@ import os
 from werkzeug.utils import secure_filename
 
 
-BASE_PATH = 'D:\\Barakat Vegetables & Fruits Co. (L.L.C.)\\Barakat Quality & Safety - SupportingDocuments'
+BASE_PATH = 'D:\\'
 UPLOAD_FOLDER = os.path.join(BASE_PATH, 'images')
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -45,10 +45,10 @@ nonconf_options = [
     "Expired",
 ]
 # def connect_to_mssql():
-#     server = '192.168.17.11'
-#     database = 'barakat'
-#     username = 'barakat'
-#     password = 'barakat@2023'
+#     server = ''
+#     database = ''
+#     username = ''
+#     password = ''
 
 #     try:
 #         conn = pyodbc.connect(
