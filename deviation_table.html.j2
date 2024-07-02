@@ -1,0 +1,89 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<style> body {
+            background-color: rgba(71, 201, 46, 0.457); /* 50% opacity for #38f771 */
+            font-family: sans-serif; /* Default font */
+        }  
+        
+        .report-number {
+      position: absolute;
+      top: 0px;
+      right: 1px; 
+      font-size: 1em; 
+    }
+        
+        </style>
+
+
+<body>
+   {% if form1.validate_on_submit() %}
+    <h1 name="reportno">Report No: {{ reportno }}</h1>
+  {% endif %}
+
+  <h1 style="font-size: 1em;">Deviation Table</h1>
+
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="flash {{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form action="/deviation_table" method="post" enctype="multipart/form-data">
+    <table>
+      <tr>
+        <th>No: of boxes checked</th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        {# <th>4</th>
+        <th>5</th>
+        <th>6</th>
+        <th>7</th>
+        <th>8</th>
+        <th>9</th>
+        <th>10</th> #}
+      </tr>
+      <tr>
+         <td>Net weight/box (kg)</td>
+    {% for i in range(1, 4) %}
+      <td>
+        <input type="number" step="0.01" name="weight_{{ i }}" min="0" required style="width: 40px;">
+      </td>
+    {% endfor %}
+      </tr>
+    </table>
+    {% if form1.validate_on_submit() %}
+  {% with selected_options=form1.NonConf.data %}
+    {% if selected_options %}
+      
+      <table class="nonconformance-table">
+        
+        <tbody>
+          
+          {% for option in selected_options %}
+          <tr>
+            <td>{{ option }}</td>
+            {% for _ in range(3) %}
+              <td><input type="number" step="0.01" name="{{ option }}_{{ loop.index }}" min="0" required style="width: 45px;" ></td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="alert alert-warning">Please select at least one non-conformance option.</div>
+    {% endif %}
+  {% endwith %}
+{% endif %}
+     <label for="uploaded-file">Upload File:</label>
+     <input type="file" id="uploaded-file" name="uploaded-file" required>
+   <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barakat Quality Check Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    
+        body {
+            background-color: rgba(71, 201, 46, 0.457); /* 50% opacity for #38f771 */
+            font-family: sans-serif; /* Default font */
+        }
+
+        h1 {
+            text-align: center; /* Center-align title */
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin: 0 auto; /* Center form horizontally */
+            width: 60%; /* Define form width */
+            padding: 20px;
+            border: 1px solid #ddd; /* Add thin border */
+            border-radius: 5px; /* Add rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%; /* Make fields full width */
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        textarea {
+            height: 100px; /* Adjust textarea height */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Blue submit button */
+            border-color: #007bff;
+        }
+
+        .logo {
+            width: 150px; /* Adjust logo width */
+            height: 50px; /* Adjust logo height */
+            margin-bottom: 20px; /* Separate logo from form */
+        }
+
+        .background-lines {
+            position: absolute; /* Position background lines */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place background lines behind content */
+        }
+
+        .background-line {
+            width: 2px; /* Adjust line thickness */
+            height: 100%;
+            background-color: #ddd; /* Light gray lines */
+            opacity: 0.3; /* Add transparency */
+            margin: 20px; /* Adjust spacing between lines */
+            transform: rotate(45deg); /* Rotate lines at an angle */
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        {# <div class="logo">
+          <img src="{{ url_for('static', filename='images/barakat-logo-2020-en-arabiccoupon-400x400.jpg') }}" alt="Your Company Logo">
+        </div> #}
+
+        <h1>Barakat Quality Check Form</h1>
+
+        <form method="POST" action="{{ url_for('index') }}">
+            {{ form1.csrf_token }}
+
+            <div class="form-group">
+                {{ form1.id_field }}
+            </div>
+
+
+             <div class="form-group">
+                <label for="reportno">Report No:</label>
+                {{ form1.reportno(size=40) }}
+            </div>
+
+            <div class="form-group">
+                <label for="product">Product Name:</label>
+                {{ form1.product(size=40) }}
+            </div>
+
+            <div class="form-group">
+                <label for="Supplier">Choose Supplier:</label>
+                {{ form1.Supplier }}
+            </div>
+
+            <div class="form-group">
+                <label for="DOR">Date of Receiving:</label>
+                {{ form1.DOR(type="date") }}
+            </div>
+
+            <div class="form-group">
+                <label for="DOI">Date of Inspection:</label>
+                {{ form1.DOI(type="date") }}
+            </div>
+
+            <div class="form-group">
+                <label for="TruckTemp">Truck Temperature (°C):</label>
+                {{ form1.TruckTemp(type="number", step="0.1") }}
+            </div>
+
+            <div class="form-group">
+                <label for="ProdTemp">Product Temperature (°C):</label>
+                {{ form1.ProdTemp(type="number", step="0.1") }}
+            </div>
+
+           
+
+            <div class="form-group">
+                <label for="NumOfBox">Number of Boxes:</label>
+                {{ form1.NumOfBox(type="number") }}
+            </div>
+
+            <div class="form-group">
+                <label for="Wastage">Wastage (kgs):</label>
+                {{ form1.Wastage(type="number") }}
+            </div>
+
+            <div class="form-group">
+                <label for="NonConf">Nature of Non-conformance:</label>
+                {{ form1.NonConf }}
+            </div>
+
+            <div class="form-group">
+                <label for="LOC">Location:</label>
+                {{ form1.LOC }}
+            </div>
+
+            <div class="form-group">
+                <label for="contawbno">CONT/AWB No.:</label>
+                {{ form1.contawbno(type="number") }}
+            </div>
+
+
+             <div class="form-group">
+                <label for="InspectorName">Inspector Name:</label>
+                {{ form1.InspectorName(size=40) }}
+            </div>
+
+            <div class="form-group">
+                <label for="Remarks">Remarks (optional):</label>
+                {{ form1.Remarks(rows=4) }}
+            </div>
+            
+
+             {# <table>
+                <thead>
+                <tr>
+                    <th>No of Boxes</th>
+                    {% for i in range(1, 11) %}
+                    <th> {{ i }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Net weight/box (kg)  </td>
+                    {% for i in range(1, 11) %}
+                    <td><input type= "float" name="input_1_{{ i }}" size="3"></td>
+                    {% endfor %}
+                </tr>
+                
+                </tbody>
+            </table>
+
+            <table>
+            <thead>
+            <tr>
+                <th>Nonconformance</th>
+                <th>Input 1</th>
+                <th>Input 2</th>
+                <th>Input 3</th>
+                <th>Input 4</th>
+                <th>Input 5</th>
+                <th>Input 6</th>
+                <th>Input 7</th>
+                <th>Input 8</th>
+                <th>Input 9</th>
+                <th>Input 10</th>
+            </tr>
+            </thead>
+            <tbody id="input_boxes">
+            </tbody>
+        </table>
+
+        <select id="nonconformance_select">
+            {% for option in nonconf_options %}
+            <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select> #}
+            <div class="form-group">
+                <a href="{{ url_for('deviation_table') }}">
+                <button type="submit" class="btn btn-primary">Next</button> </a>
+            </div>
+
+            {% if message %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% elif error_message %}
+                <div class="alert alert-danger">{{ error_message }}</div>
+            {% endif %}
+
+        
+        <div class="background-lines">
+            <div class="background-line"></div>
+            <div class="background-line"></div>
+            </div>
+    </div>
+</body>
+</html>
+
